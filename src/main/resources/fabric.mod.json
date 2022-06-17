@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "endgrief",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "EndGriefEnd",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Maheesha"
@@ -19,16 +19,19 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.maheevil.example.ExampleMod"
+      "io.github.maheevil.endgrief.ExampleMod"
+    ],
+    "preLaunch": [
+      "io.github.maheevil.endgrief.PreLaunchInit"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "endgrief.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.12.9",
-    "minecraft": "1.18.x",
+    "fabricloader": ">=0.13.9",
+    "minecraft": "1.19.x",
     "java": ">=17"
   },
   "suggests": {
