@@ -20,7 +20,7 @@ public class SpikeFeatureMixin {
                     ordinal = 0
             )
     )
-    private boolean conditionedPlaceTwo(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
+    private boolean conditionedPlaceAir(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
         return levelAccessor.getBlockState(pos).isAir();
     }
 
@@ -32,7 +32,19 @@ public class SpikeFeatureMixin {
                     ordinal = 1
             )
     )
-    private boolean conditionedPlace(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
+    private boolean conditionedPlaceObsidian(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
         return levelAccessor.getBlockState(pos).isAir();
+    }
+
+    @WrapWithCondition(
+            method = "placeSpike(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/level/levelgen/feature/configurations/SpikeConfiguration;Lnet/minecraft/world/level/levelgen/feature/SpikeFeature$EndSpike;)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "net/minecraft/world/level/levelgen/feature/SpikeFeature.setBlock(Lnet/minecraft/world/level/LevelWriter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V",
+                    ordinal = 2
+            )
+    )
+    private boolean conditionedPlaceIronBars(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
+        return false;//levelAccessor.getBlockState(pos).isAir();
     }
 }
