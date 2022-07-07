@@ -14,12 +14,12 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/endgrief/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.maheevil.endgrief.ExampleMod"
+      "io.github.maheevil.endgrief.EndGriefMod"
     ],
     "preLaunch": [
       "io.github.maheevil.endgrief.PreLaunchInit"

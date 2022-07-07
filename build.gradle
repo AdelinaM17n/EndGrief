@@ -20,21 +20,18 @@ repositories {
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings loom.layered() {
 		officialMojangMappings()
 	}
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
+	modImplementation fabricApi.module("fabric-game-rule-api-v1", project.fabric_version)
+	include fabricApi.module("fabric-game-rule-api-v1", project.fabric_version)
+
 	implementation("com.github.LlamaLad7:MixinExtras:0.0.11")
 	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.11")
 	include("com.github.LlamaLad7:MixinExtras:0.0.11")
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	//modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
 }
 
 processResources {

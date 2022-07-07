@@ -8,7 +8,7 @@
     "EnderDragonMixin",
     "SpikeFeatureMixin"
   ],
-  "server": [
+  "client": [
   ],
   "injectors": {
     "defaultRequire": 1

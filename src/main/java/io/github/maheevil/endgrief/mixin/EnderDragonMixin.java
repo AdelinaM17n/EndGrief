@@ -1,5 +1,6 @@
 package io.github.maheevil.endgrief.mixin;
 
+import io.github.maheevil.endgrief.EndGriefMod;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.level.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +17,6 @@ public class EnderDragonMixin {
             )
     )
     public boolean checkGameRules(GameRules instance, GameRules.Key<GameRules.BooleanValue> key){
-        return false;
+        return !instance.getBoolean(EndGriefMod.disableDragonGrief);
     }
 }

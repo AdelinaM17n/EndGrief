@@ -1,6 +1,8 @@
 package io.github.maheevil.endgrief.mixin;
 
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import io.github.maheevil.endgrief.EndGriefMod;
+import io.github.maheevil.endgrief.GriefType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelWriter;
@@ -21,7 +23,10 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceAir(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
-        return levelAccessor.getBlockState(pos).isAir();
+        var grieftType = levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get();
+        if(grieftType == GriefType.REPLACE_AIR)
+            return levelAccessor.getBlockState(pos).isAir();
+        return grieftType == GriefType.VANILA;
     }
 
     @WrapWithCondition(
@@ -33,7 +38,7 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceObsidian(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
-        return levelAccessor.getBlockState(pos).isAir();
+        return false;
     }
 
     @WrapWithCondition(
@@ -45,6 +50,9 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceIronBars(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
-        return false;//levelAccessor.getBlockState(pos).isAir();
+        var grieftType = levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get();
+        if(grieftType == GriefType.REPLACE_AIR)
+            return levelAccessor.getBlockState(pos).isAir();
+        return grieftType == GriefType.VANILA;
     }
 }

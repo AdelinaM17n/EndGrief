@@ -1,12 +1,21 @@
 package io.github.maheevil.endgrief.mixin;
 
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import io.github.maheevil.endgrief.EndGriefMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.dimension.end.EndDragonFight;
+import net.minecraft.world.level.levelgen.feature.SpikeFeature;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import java.util.List;
 
 @Mixin(targets = "net/minecraft/world/level/dimension/end/DragonRespawnAnimation$3")
 public class DragonRespawnAnimThreeMixin {
@@ -21,16 +30,36 @@ public class DragonRespawnAnimThreeMixin {
         return false;
     }
 
-    @ModifyArg(
+    @WrapWithCondition(
             method = "tick",
             at = @At(
                     value = "INVOKE",
                     target = "net/minecraft/server/level/ServerLevel.explode (Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Explosion$BlockInteraction;)Lnet/minecraft/world/level/Explosion;",
                     ordinal = 0
-            ),
-            index = 5
+            )
     )
-    public Explosion.BlockInteraction modifyExplosionType(Explosion.BlockInteraction par6){
-        return Explosion.BlockInteraction.NONE;
+    public boolean modifyExplosionType(ServerLevel instance, Entity entity, double v, double x, double y, float z, Explosion.BlockInteraction blockInteraction){
+        return false;
+    }
+
+    @Inject(
+            method = "tick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "net/minecraft/server/level/ServerLevel.explode (Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Explosion$BlockInteraction;)Lnet/minecraft/world/level/Explosion;",
+                    ordinal = 0,
+                    shift = At.Shift.BEFORE
+            ),
+            locals = LocalCapture.CAPTURE_FAILSOFT
+    )
+    private void injectAtExplosion(ServerLevel serverLevel, EndDragonFight endDragonFight, List<EndCrystal> list, int i, BlockPos blockPos, CallbackInfo ci, int j, boolean bl, boolean bl2, List<?> list2, int k, SpikeFeature.EndSpike endSpike){
+        serverLevel.explode(
+                null,
+                (float)endSpike.getCenterX() + 0.5F,
+                endSpike.getHeight(),
+                (float)endSpike.getCenterZ() + 0.5F,
+                5.0F,
+                serverLevel.getGameRules().getRule(EndGriefMod.endCrystalExplosion).get()
+        );
     }
 }
