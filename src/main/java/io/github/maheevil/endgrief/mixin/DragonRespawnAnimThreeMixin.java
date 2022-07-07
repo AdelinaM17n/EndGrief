@@ -2,6 +2,7 @@ package io.github.maheevil.endgrief.mixin;
 
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import io.github.maheevil.endgrief.EndGriefMod;
+import io.github.maheevil.endgrief.GriefType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -27,7 +28,7 @@ public class DragonRespawnAnimThreeMixin {
             )
     )
     private boolean wrapRemoveBlockWithCondition(ServerLevel instance, BlockPos pos, boolean b){
-        return false;
+        return instance.getGameRules().getRule(EndGriefMod.pillarGriefType).get() == GriefType.VANILA;
     }
 
     @WrapWithCondition(

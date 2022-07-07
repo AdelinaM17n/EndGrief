@@ -38,7 +38,7 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceObsidian(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
-        return false;
+        return levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get() == GriefType.VANILA;
     }
 
     @WrapWithCondition(
