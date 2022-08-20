@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
+import java.util.Objects;
 
 @Mixin(targets = "net/minecraft/world/level/dimension/end/DragonRespawnAnimation$3")
 public class DragonRespawnAnimThreeMixin {
@@ -28,6 +29,9 @@ public class DragonRespawnAnimThreeMixin {
             )
     )
     private boolean wrapRemoveBlockWithCondition(ServerLevel instance, BlockPos pos, boolean b){
+        boolean respawn = Objects.requireNonNull(instance.dragonFight()).hasPreviouslyKilledDragon();
+
+        if(!respawn) return true;
         return instance.getGameRules().getRule(EndGriefMod.pillarGriefType).get() == GriefType.VANILA;
     }
 

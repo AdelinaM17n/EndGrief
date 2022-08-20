@@ -4,13 +4,15 @@ import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import io.github.maheevil.endgrief.EndGriefMod;
 import io.github.maheevil.endgrief.GriefType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelWriter;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.SpikeFeature;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+
+import java.util.Objects;
 
 @Mixin(SpikeFeature.class)
 public class SpikeFeatureMixin {
@@ -23,10 +25,7 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceAir(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
-        var grieftType = levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get();
-        if(grieftType == GriefType.REPLACE_AIR)
-            return levelAccessor.getBlockState(pos).isAir();
-        return grieftType == GriefType.VANILA;
+        return determineGeneration(pos, levelAccessor);
     }
 
     @WrapWithCondition(
@@ -38,6 +37,9 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceObsidian(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
+        boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().dragonFight()).hasPreviouslyKilledDragon();
+
+        if(!respawn) return true;
         return levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get() == GriefType.VANILA;
     }
 
@@ -50,7 +52,16 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceIronBars(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
+        return determineGeneration(pos, levelAccessor);
+    }
+
+    @Unique
+    private boolean determineGeneration(BlockPos pos, ServerLevelAccessor levelAccessor) {
         var grieftType = levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get();
+        boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().dragonFight()).hasPreviouslyKilledDragon();
+
+        if(!respawn)
+            return true;
         if(grieftType == GriefType.REPLACE_AIR)
             return levelAccessor.getBlockState(pos).isAir();
         return grieftType == GriefType.VANILA;
