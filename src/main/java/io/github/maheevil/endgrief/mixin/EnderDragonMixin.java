@@ -23,7 +23,8 @@ public abstract class EnderDragonMixin extends Mob {
             method = "checkWalls",
             at = @At(
                     value = "INVOKE",
-                    target = "net/minecraft/world/level/block/state/BlockState.is (Lnet/minecraft/tags/TagKey;)Z"
+                    target = "net/minecraft/world/level/block/state/BlockState.is (Lnet/minecraft/tags/TagKey;)Z",
+                    ordinal = 1
             )
     )
     public boolean checkGameRules(BlockState instance, TagKey<Block> tagKey){
