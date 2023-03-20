@@ -39,7 +39,7 @@ public class DragonRespawnAnimThreeMixin {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "net/minecraft/server/level/ServerLevel.explode (Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Explosion$BlockInteraction;)Lnet/minecraft/world/level/Explosion;",
+                    target = "net/minecraft/server/level/ServerLevel.explode (Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Level$ExplosionInteraction;)Lnet/minecraft/world/level/Explosion;",
                     ordinal = 0
             )
     )
@@ -51,7 +51,7 @@ public class DragonRespawnAnimThreeMixin {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "net/minecraft/server/level/ServerLevel.explode (Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Explosion$BlockInteraction;)Lnet/minecraft/world/level/Explosion;",
+                    target = "net/minecraft/server/level/ServerLevel.explode (Lnet/minecraft/world/entity/Entity;DDDFLnet/minecraft/world/level/Level$ExplosionInteraction;)Lnet/minecraft/world/level/Explosion;",
                     ordinal = 0,
                     shift = At.Shift.BEFORE
             ),
