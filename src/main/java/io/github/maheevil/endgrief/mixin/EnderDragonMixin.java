@@ -28,6 +28,6 @@ public abstract class EnderDragonMixin extends Mob {
             )
     )
     public boolean checkGameRules(BlockState instance, TagKey<Block> tagKey){
-        return this.level.getGameRules().getBoolean(EndGriefMod.disableDragonGrief) || instance.is(tagKey);
+        return this.level().getGameRules().getBoolean(EndGriefMod.disableDragonGrief) || instance.is(tagKey);
     }
 }

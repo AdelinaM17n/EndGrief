@@ -37,7 +37,7 @@ public class SpikeFeatureMixin {
             )
     )
     private boolean conditionedPlaceObsidian(SpikeFeature instance, LevelWriter levelWriter, BlockPos pos, BlockState blockState, ServerLevelAccessor levelAccessor) {
-        boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().dragonFight()).hasPreviouslyKilledDragon();
+        boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().getDragonFight()).hasPreviouslyKilledDragon();
 
         if(!respawn) return true;
         return levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get() == GriefType.VANILA;
@@ -58,7 +58,7 @@ public class SpikeFeatureMixin {
     @Unique
     private boolean determineGeneration(BlockPos pos, ServerLevelAccessor levelAccessor) {
         var grieftType = levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get();
-        boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().dragonFight()).hasPreviouslyKilledDragon();
+        boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().getDragonFight()).hasPreviouslyKilledDragon();
 
         if(!respawn)
             return true;

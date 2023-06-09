@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
-import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.end.EndDragonFight;
 import net.minecraft.world.level.levelgen.feature.SpikeFeature;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +29,7 @@ public class DragonRespawnAnimThreeMixin {
             )
     )
     private boolean wrapRemoveBlockWithCondition(ServerLevel instance, BlockPos pos, boolean b){
-        boolean respawn = Objects.requireNonNull(instance.dragonFight()).hasPreviouslyKilledDragon();
+        boolean respawn = Objects.requireNonNull(instance.getDragonFight()).hasPreviouslyKilledDragon();
 
         if(!respawn) return true;
         return instance.getGameRules().getRule(EndGriefMod.pillarGriefType).get() == GriefType.VANILA;
@@ -43,7 +43,7 @@ public class DragonRespawnAnimThreeMixin {
                     ordinal = 0
             )
     )
-    public boolean modifyExplosionType(ServerLevel instance, Entity entity, double v, double x, double y, float z, Explosion.BlockInteraction blockInteraction){
+    public boolean modifyExplosionType(ServerLevel instance, Entity entity, double v, double g, double t, float h, Level.ExplosionInteraction explosionInteraction){
         return false;
     }
 
