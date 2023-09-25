@@ -24,7 +24,7 @@ public class EndGriefMod implements ModInitializer {
 			);
 	public static GameRules.Key<EnumRule<Level.ExplosionInteraction>> endCrystalExplosion = GameRuleRegistry
 			.register(
-					"endCrystalExplosionType",
+					"endCrystalRegenExplosionType",
 					GameRules.Category.MISC,
 					GameRuleFactory.createEnumRule(Level.ExplosionInteraction.NONE)
 			);

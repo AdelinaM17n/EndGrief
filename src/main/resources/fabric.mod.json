@@ -6,7 +6,7 @@
   "name": "EndGrief",
   "description": "A mod to make building in the main end island more feasible.",
   "authors": [
-    "Maheesha"
+    "Adelina"
   ],
   "contact": {
     "homepage": "https://maheevil.github.io/",
@@ -32,6 +32,7 @@
   "depends": {
     "fabricloader": ">=0.14.6",
     "minecraft": ">=1.20",
+    "fabric-api": "*",
     "java": ">=17"
   },
   "suggests": {

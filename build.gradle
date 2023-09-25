@@ -29,9 +29,9 @@ dependencies {
 	modImplementation fabricApi.module("fabric-game-rule-api-v1", project.fabric_version)
 	include fabricApi.module("fabric-game-rule-api-v1", project.fabric_version)
 
-	implementation("com.github.LlamaLad7:MixinExtras:0.0.11")
-	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.11")
-	include("com.github.LlamaLad7:MixinExtras:0.0.11")
+	implementation("com.github.LlamaLad7:MixinExtras:0.1.1")
+	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.1")
+	include("com.github.LlamaLad7:MixinExtras:0.1.1")
 }
 
 processResources {
