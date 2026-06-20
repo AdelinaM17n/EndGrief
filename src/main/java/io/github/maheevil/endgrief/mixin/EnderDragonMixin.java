@@ -1,6 +1,7 @@
 package io.github.maheevil.endgrief.mixin;
 
 import io.github.maheevil.endgrief.EndGriefMod;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -15,6 +16,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(EnderDragon.class)
 public abstract class EnderDragonMixin extends Mob {
 
+    /*@Shadow
+    public int dragonDeathTime;*/
+
     protected EnderDragonMixin(EntityType<? extends Mob> entityType, Level level){
         super(entityType, level);
     }
@@ -26,8 +30,12 @@ public abstract class EnderDragonMixin extends Mob {
                     target = "net/minecraft/world/level/block/state/BlockState.is (Lnet/minecraft/tags/TagKey;)Z",
                     ordinal = 1
             )
+            //locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
     public boolean checkGameRules(BlockState instance, TagKey<Block> tagKey){
-        return this.level().getGameRules().getBoolean(EndGriefMod.disableDragonGrief) || instance.is(tagKey);
+        if(this.level() instanceof ServerLevel serverLevel){
+            return serverLevel.getGameRules().get(EndGriefMod.disableDragonGrief) || instance.is(tagKey);
+        }
+        return instance.is((tagKey));
     }
 }

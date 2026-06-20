@@ -1,0 +1,2 @@
+- Updated to 1.21.11 (Extremely untested beta)
+- Renamed the gamerules to fit the new registry requirements

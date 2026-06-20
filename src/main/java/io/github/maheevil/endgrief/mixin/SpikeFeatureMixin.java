@@ -1,6 +1,6 @@
 package io.github.maheevil.endgrief.mixin;
 
-import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import io.github.maheevil.endgrief.EndGriefMod;
 import io.github.maheevil.endgrief.GriefType;
 import net.minecraft.core.BlockPos;
@@ -16,6 +16,11 @@ import java.util.Objects;
 
 @Mixin(SpikeFeature.class)
 public class SpikeFeatureMixin {
+    /*@Shadow
+    public static List<SpikeFeature.EndSpike> getSpikesForLevel(WorldGenLevel worldGenLevel) {
+        throw new UnsupportedOperationException("Implemented via mixin");
+    }*/
+
     @WrapWithCondition(
             method = "placeSpike(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/level/levelgen/feature/configurations/SpikeConfiguration;Lnet/minecraft/world/level/levelgen/feature/SpikeFeature$EndSpike;)V",
             at = @At(
@@ -40,7 +45,7 @@ public class SpikeFeatureMixin {
         boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().getDragonFight()).hasPreviouslyKilledDragon();
 
         if(!respawn) return true;
-        return levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get() == GriefType.VANILA;
+        return levelAccessor.getLevel().getGameRules().get(EndGriefMod.pillarGriefType) == GriefType.VANILA;
     }
 
     @WrapWithCondition(
@@ -57,13 +62,13 @@ public class SpikeFeatureMixin {
 
     @Unique
     private boolean determineGeneration(BlockPos pos, ServerLevelAccessor levelAccessor) {
-        var grieftType = levelAccessor.getLevelData().getGameRules().getRule(EndGriefMod.pillarGriefType).get();
+        var griefType = levelAccessor.getLevel().getGameRules().get(EndGriefMod.pillarGriefType);
         boolean respawn = Objects.requireNonNull(levelAccessor.getLevel().getDragonFight()).hasPreviouslyKilledDragon();
 
         if(!respawn)
             return true;
-        if(grieftType == GriefType.REPLACE_AIR)
+        if(griefType == GriefType.REPLACE_AIR)
             return levelAccessor.getBlockState(pos).isAir();
-        return grieftType == GriefType.VANILA;
+        return griefType == GriefType.VANILA;
     }
 }
